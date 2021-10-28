@@ -1,9 +1,16 @@
 const selectOne = document.querySelector('.currency__select__one')
 const selectTwo = document.querySelector('.currency__select__two')
+const toggleBtn = document.querySelector('.toggle__button')
 const iHaveInput = document.querySelector('.i-have-value')
-const iWantInput = document.querySelector('.i-want-value')
+const iWontInput = document.querySelector('.i-wont-value')
+const state = {
+    iHaveCurrency : 'RUB',
+    iWontCurrency : 'USD',
+    iHaveValue : 100,
+    iWontValue : 0,
+}
 
-
+iHaveInput.value = state.iHaveValue
 const getCurrencyValue = async function(){
     const resp = await fetch('https://api.exchangerate.host/latest')
     const data = await resp.json()
@@ -11,7 +18,6 @@ const getCurrencyValue = async function(){
 }
 
 function getCurrencyOptions(){
-    let counter = 0
     getCurrencyValue()
     .then(data => {
         const arr = []
@@ -32,5 +38,30 @@ function getCurrencyOptions(){
     })
 }
 
-getCurrencyOptions()
 
+
+const getData = async function(currency, amount){
+    const resp = await fetch(`https://api.exchangerate.host/latest?base=${currency}&amount=${amount}`)
+    const data = await resp.json()
+    return data
+}
+
+function letsConvert(){
+    getData(state.iHaveCurrency, state.iHaveValue)
+    .then(data => {
+        console.log(state.iWontCurrency)
+        let curr = state.iWontCurrency
+        state.iWontValue = data.rates[curr]
+        changeValues()
+    })
+    
+    
+}
+
+function changeValues(){
+    iHaveInput.value = state.iHaveValue
+    iWontInput.value = state.iWontValue
+}
+
+getCurrencyOptions()
+letsConvert()
