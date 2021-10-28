@@ -31,6 +31,44 @@
                 <button class="header__button" type="button">Войти</button>
             </div>
         </header>
+        <main class="main">
+            <section class="convector container">
+                <h1 class="convector__title">Конвертер валют онлайн</h1>
+                <div class="calculator__box">
+                    <div class="calculator__column">
+                        <p class="column__subtitle">У меня есть</p>
+                        <div class="currency__bar">
+                            <button class="currency__value selected">RUB</button>
+                            <button class="currency__value">USD</button>
+                            <button class="currency__value">EUR</button>
+                            <button class="currency__value">GBP</button>
+                            <button class="currency__value"><img src="./img/arrow.svg" alt="arrow icon" class="button__arrow"></button>
+                        </div>
+                        <div class="amount">
+                            <input type="number" class="amount__value">
+                            <p class="amount__subtitle">ldnvon wekf wef</p>
+                        </div>
+                    </div>
+                    <button class="toggle__button"><img src="./img/toggle-button.svg" alt="toggle button icon" class="toggle__icon"></button>
+                    <div class="calculator__column">
+                        <p class="column__subtitle">Хочу приобрести</p>
+                        <div class="currency__bar">
+                            <button class="currency__value">RUB</button>
+                            <button class="currency__value selected">USD</button>
+                            <button class="currency__value">EUR</button>
+                            <button class="currency__value">GBP</button>
+                            <button class="currency__value"><img src="./img/arrow.svg" alt="arrow icon" class="button__arrow"></button>
+                        </div>
+                        <div class="amount">
+                            <input type="number" class="amount__value">
+                            <p class="amount__subtitle">ldnvon wekf wef</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal__currency__bar"></div>
+            </section>
+        </main>
+        <div class="loading"></div>
     </div>
     <script src="./script/script.js"></script>
 </body>

@@ -6,6 +6,7 @@
 
 body{
     font-family: 'Roboto', sans-serif;
+    line-height: 116%;
 }
 ul, li{
     list-style-type: none;
@@ -13,11 +14,19 @@ ul, li{
 a{
     text-decoration: none;
 }
+input{
+    outline: none;
+}
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 /* ********************************************************************************************************************* */
 
 .page {
     width: 100%;
+    overflow: hidden;
 }
 .container {
     max-width: 950px;
@@ -51,7 +60,7 @@ a{
     justify-content: space-between;
 }
 
-.nav__item:not(:first-child){
+.nav__item:not(:last-child){
     margin: 0 21px 0 0;
 }
 
@@ -92,3 +101,93 @@ a{
 }
 
 /* ********************************************************************************************************************* */
+
+.convector {
+    padding: 56px 156px 300px 195px;
+}
+.convector__title {
+    font-weight: bold;
+    font-size: 36px;
+}
+.calculator__box {
+    padding: 33px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    max-width: 641px;
+}
+.calculator__column {
+    max-width: 259px;
+}
+.column__subtitle {
+    font-weight: normal;
+    font-size: 12px;
+    color: #9F9F9F;
+    margin: 0 0 10px;
+}
+.currency__bar {
+    display: flex;
+    max-width: 259px;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px;
+    font-size: 0;
+}
+.currency__value {
+    display: flex;
+    justify-content: center;
+    width: 20%;
+    border: none;
+    background: none;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    font-weight: normal;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #C6C6C6;
+    
+}
+.selected{
+    background-color: #833AE0;
+    color: #fff;
+}
+.currency__value:not(:last-child){
+    border-right: 1px solid #E5E5E5;
+}
+
+.amount {
+    width: 259px;
+    margin: 20px 0 0 0;
+    padding: 0 0 13px 14px;
+    border: 1px solid #E5E5E5;
+    border-radius: 3px;
+}
+.amount__value {
+    width: 100%;
+    padding: 11px 0 34px 0;
+    border: none;
+    
+
+    font-weight: bold;
+    font-size: 36px;
+}
+.amount__subtitle {
+    font-weight: normal;
+    font-size: 12px;
+    color: #C6C6C6;
+}
+.toggle__button {
+    width: 37px;
+    height: 32px;
+    margin-top: 106px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.toggle__icon {
+    width: 37px;
+    height: 32px;
+}
+.modal__currency__bar {
+}
