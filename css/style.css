@@ -14,7 +14,7 @@ ul, li{
 a{
     text-decoration: none;
 }
-input{
+input, select{
     outline: none;
 }
 input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
@@ -31,6 +31,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .container {
     max-width: 950px;
     margin: 0 auto;
+    padding: 0 5px;
 }
 
 /* ********************************************************************************************************************* */                      
@@ -180,7 +181,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .toggle__button {
     width: 37px;
     height: 32px;
-    margin-top: 106px;
+    margin-top: 125px;
     border: none;
     background: none;
     cursor: pointer;
@@ -188,6 +189,4 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .toggle__icon {
     width: 37px;
     height: 32px;
-}
-.modal__currency__bar {
 }
