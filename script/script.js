@@ -11,6 +11,7 @@ const leftArow = document.querySelector('.left__arow')
 const rightArow = document.querySelector('.right__arow')
 const page = document.querySelector('.page')
 const btnArr = document.querySelectorAll('.target__button')
+const amountSubtitle = document.querySelectorAll('.amount__subtitle')
 const state = {
     iHaveCurrency : 'RUB',
     iWontCurrency : 'USD',
@@ -30,6 +31,7 @@ function equalsValues(){
 
 btnArr.forEach(el => {
     el.addEventListener('click', e => {
+        amountSubtitle.forEach(el => el.style.display = 'block')
         const arr = e.target.parentElement.querySelectorAll('.target__button')
         arr.forEach(el => {
             el.classList.remove('selected')
@@ -130,7 +132,7 @@ rightArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
         selectTwo.classList.toggle('visible')
         console.log(e.target)
-        state.order = 'DESK'
+        state.order = 'DESC'
     }else{
         selectTwo.classList.toggle('visible')
         state.order = 'ASK'
@@ -140,12 +142,54 @@ rightArow.addEventListener('click', e => {
 leftArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
         selectOne.classList.toggle('visible')
-        state.order = 'DESK'
+        state.order = 'DESC'
     }else{
         selectOne.classList.toggle('visible')
         state.order = 'ASK'
     }
 })
 
+iHaveInput.addEventListener('input', e => {
+    amountSubtitle.forEach(el => el.style.display = 'block')
+    if (e.target.value === '0'){
+        amountSubtitle.forEach(el => el.style.display = 'none')
+        iWontInput.value = 0
+    }else if(e.target.value === ''){
+        state.iHaveValue = 1
+        letsConvert()
+    }else{
+        state.iHaveValue = e.target.value
+        setTimeout(letsConvert,800)
+    }
+})
+iWontInput.addEventListener('input', e => {
+    amountSubtitle.forEach(el => el.style.display = 'block')
+    if (e.target.value === '0'){
+        amountSubtitle.forEach(el => el.style.display = 'none')
+        iHaveInput.value = 0
+    }else if(e.target.value === ''){
+        state.iWontValue = 1
+        getData(state.iWontCurrency, state.iWontValue)
+        .then(data => {
+        let curr = state.iHaveCurrency
+        state.iHaveValue = data.rates[curr]
+        changeValues()
+        changSubTitle()
+    })
+    }else{
+        state.iWontValue = e.target.value
+        getData(state.iWontCurrency, state.iWontValue)
+        .then(data => {
+        let curr = state.iHaveCurrency
+        state.iHaveValue = data.rates[curr]
+        changeValues()
+        changSubTitle()
+    })
+    }
+})
+
+
 getCurrencyOptions()
 letsConvert()
+
+
