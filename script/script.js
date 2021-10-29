@@ -19,6 +19,13 @@ const state = {
     order : 'ASK'
 }
 
+function equalsValues(){
+    state.iWontValue = 1
+    state.iHaveValue = 1
+    changeValues()
+    changSubTitle()
+}
+
 btnArr.forEach(el => {
     el.addEventListener('click', e => {
         const arr = e.target.parentElement.querySelectorAll('.target__button')
@@ -28,10 +35,11 @@ btnArr.forEach(el => {
         e.target.classList.add('selected')
         if(e.target.parentElement.classList.contains('left-column')){
             state.iHaveCurrency = e.target.innerText
-            letsConvert()
+            state.iHaveCurrency === state.iWontCurrency ? equalsValues(): letsConvert()
+             
         }else{
             state.iWontCurrency = e.target.innerText
-            letsConvert()
+            state.iWontCurrency === state.iHaveCurrency ? equalsValues() : letsConvert()
         }
     })
 })
@@ -80,8 +88,6 @@ function letsConvert(){
         changeValues()
         changSubTitle()
     })
-    
-    
 }
 
 function changeValues(){
@@ -96,11 +102,9 @@ function changSubTitle(){
 
 rightArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
-        e.target.querySelector('.arrow').style.transform = 'rotate(180deg)'
         selectTwo.classList.toggle('visible')
         state.order = 'DESK'
     }else{
-        e.target.querySelector('.arrow').style.transform = 'rotate(360deg)'
         selectTwo.classList.toggle('visible')
         state.order = 'ASK'
     } 
@@ -108,29 +112,13 @@ rightArow.addEventListener('click', e => {
 })
 leftArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
-        e.target.querySelector('.arrow').style.transform = 'rotate(180deg)'
         selectOne.classList.toggle('visible')
         state.order = 'DESK'
     }else{
-        e.target.querySelector('.arrow').style.transform = 'rotate(360deg)'
         selectOne.classList.toggle('visible')
         state.order = 'ASK'
     }
 })
-
-// function changeSelected(e){
-//    const arr = e.target.parentElement.querySelectorAll('.target__button')
-//    arr.forEach(el => {
-//        if (el.classList.contains('selected')){
-//            el.classList.remove('selected')
-//        }
-//        if(el === e.target && el.classList.contains('target__button')){
-//            el.classList.add('selected')
-//        }
-//    })
-// }
-
-// leftColumn.addEventListener('click', changeSelected)
 
 getCurrencyOptions()
 letsConvert()

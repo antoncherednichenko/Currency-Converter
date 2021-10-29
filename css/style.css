@@ -147,14 +147,13 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     align-items: center;
     text-align: center;
     color: #C6C6C6;
+
+    border-right: 1px solid #E5E5E5;
     
 }
 .selected{
     background-color: #833AE0;
     color: #fff;
-}
-.currency__value:not(:nth-child(5)){
-    border-right: 1px solid #E5E5E5;
 }
 
 .amount {
@@ -219,10 +218,16 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     left: 3px;
 }
 .left__arow{
-    position: relative;
+    width: 100%;
+    border: none;
+    align-items: center;
+    height: 35px;
 }
 .right__arow{
-    position: relative;
+    width: 100%;
+    border: none;
+    align-items: center;
+    height: 35px;
 }
 .left__list{
     display: none;
@@ -237,4 +242,11 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 }
 .arrow{
     transition: 0.5s;
+}
+.button__wrapper{
+    position: relative;
+    width: 20%;
+}
+.left__arow, .right__arow{
+    background: url('../img/arrow.svg') no-repeat center;
 }    
