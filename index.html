@@ -38,11 +38,17 @@
                     <div class="calculator__column">
                         <p class="column__subtitle">У меня есть</p>
                         <div class="currency__bar left-column">
-                            <button class="currency__value selected">RUB</button>
-                            <button class="currency__value">USD</button>
-                            <button class="currency__value">EUR</button>
-                            <button class="currency__value">GBP</button>
-                            <select name="currency"  class="currency__select__one"></select>
+                            <button class="currency__value selected target__button">RUB</button>
+                            <button class="currency__value target__button">USD</button>
+                            <button class="currency__value target__button">EUR</button>
+                            <button class="currency__value target__button">GBP</button>
+                            <button class="currency__value left__arow">
+                                <img class="arrow" src="./img/arrow.svg" alt="arrow icon">
+                                <ul class="left__list list"></ul>
+                            </button>
+                            
+                            
+                            <!-- <select name="currency"  class="currency__select__one"></select> -->
                         </div>
                         <div class="amount">
                             <input type="number" class="amount__value i-have-value">
@@ -53,11 +59,16 @@
                     <div class="calculator__column">
                         <p class="column__subtitle">Хочу приобрести</p>
                         <div class="currency__bar right-column">
-                            <button class="currency__value">RUB</button>
-                            <button class="currency__value selected">USD</button>
-                            <button class="currency__value">EUR</button>
-                            <button class="currency__value">GBP</button>
-                            <select name="currency"  class="currency__select__two"></select>
+                            <button class="currency__value target__button">RUB</button>
+                            <button class="currency__value selected target__button">USD</button>
+                            <button class="currency__value target__button">EUR</button>
+                            <button class="currency__value target__button">GBP</button>
+                            <button class="currency__value right__arow">
+                                <img class="arrow" src="./img/arrow.svg" alt="arrow icon">
+                                <ul class="right__list list"></ul>
+                            </button>
+                            
+                            <!-- <select name="currency"  class="currency__select__two"></select> -->
                         </div>
                         <div class="amount">
                             <input type="number" class="amount__value i-wont-value">

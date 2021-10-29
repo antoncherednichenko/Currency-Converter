@@ -1,5 +1,5 @@
-const selectOne = document.querySelector('.currency__select__one')
-const selectTwo = document.querySelector('.currency__select__two')
+const selectOne = document.querySelector('.left__list')
+const selectTwo = document.querySelector('.right__list')
 const toggleBtn = document.querySelector('.toggle__button')
 const iHaveInput = document.querySelector('.i-have-value')
 const iWontInput = document.querySelector('.i-wont-value')
@@ -7,12 +7,34 @@ const leftSubtitle = document.querySelector('.left-subtitle')
 const rightSubtitle = document.querySelector('.right-subtitle')
 const leftColumn = document.querySelector('.left-column')
 const rightColumn = document.querySelector('.right-column')
+const leftArow = document.querySelector('.left__arow')
+const rightArow = document.querySelector('.right__arow')
+const page = document.querySelector('.page')
+const btnArr = document.querySelectorAll('.target__button')
 const state = {
     iHaveCurrency : 'RUB',
     iWontCurrency : 'USD',
     iHaveValue : 1,
     iWontValue : 0,
+    order : 'ASK'
 }
+
+btnArr.forEach(el => {
+    el.addEventListener('click', e => {
+        const arr = e.target.parentElement.querySelectorAll('.target__button')
+        arr.forEach(el => {
+            el.classList.remove('selected')
+        })
+        e.target.classList.add('selected')
+        if(e.target.parentElement.classList.contains('left-column')){
+            state.iHaveCurrency = e.target.innerText
+            letsConvert()
+        }else{
+            state.iWontCurrency = e.target.innerText
+            letsConvert()
+        }
+    })
+})
 
 iHaveInput.value = state.iHaveValue
 const getCurrencyValue = async function(){
@@ -32,8 +54,10 @@ function getCurrencyOptions(){
     })
     .then(arr => {
         arr.forEach( el => {
-            const optionOne = document.createElement('option')
-            const optionTwo = document.createElement('option')
+            const optionOne = document.createElement('li')
+            const optionTwo = document.createElement('li')
+            optionOne.classList.add('option')
+            optionTwo.classList.add('option')
             optionOne.innerText = el
             optionTwo.innerText = el
             selectOne.append(optionOne)
@@ -70,43 +94,43 @@ function changSubTitle(){
     rightSubtitle.innerText = `1 ${state.iWontCurrency} = ${(state.iHaveValue / state.iWontValue).toFixed(4)} ${state.iHaveCurrency}`
 }
 
-leftColumn.addEventListener('click', e => {
-    const leftArr = leftColumn.querySelectorAll('button')
-    if (e.target.classList.contains('currency__select__one')){
-        return
+rightArow.addEventListener('click', e => {
+    if(state.order === 'ASK'){
+        e.target.querySelector('.arrow').style.transform = 'rotate(180deg)'
+        selectTwo.classList.toggle('visible')
+        state.order = 'DESK'
     }else{
-        leftArr.forEach(el => {
-            if (el.classList.contains('selected')){
-                el.classList.remove('selected')
-            }
-            if(!e.target.classList.contains('left-column') && !e.target.classList.contains('currency__select__one')){
-                e.target.classList.add('selected')
-                state.iHaveCurrency = e.target.innerText
-                letsConvert()
-            }
-        })
-       
-        
+        e.target.querySelector('.arrow').style.transform = 'rotate(360deg)'
+        selectTwo.classList.toggle('visible')
+        state.order = 'ASK'
+    } 
+    
+})
+leftArow.addEventListener('click', e => {
+    if(state.order === 'ASK'){
+        e.target.querySelector('.arrow').style.transform = 'rotate(180deg)'
+        selectOne.classList.toggle('visible')
+        state.order = 'DESK'
+    }else{
+        e.target.querySelector('.arrow').style.transform = 'rotate(360deg)'
+        selectOne.classList.toggle('visible')
+        state.order = 'ASK'
     }
 })
 
-rightColumn.addEventListener('click', e => {
-    const rightArr = rightColumn.querySelectorAll('button')
-    if (e.target.classList.contains('currency__select__two')){
-        return
-    }else{
-        rightArr.forEach(el => {
-            if (el.classList.contains('selected')){
-                el.classList.remove('selected')
-            }
-            if(!e.target.classList.contains('right-column') && !e.target.classList.contains('currency__select__two')){
-                e.target.classList.add('selected')
-            state.iWontCurrency = e.target.innerText
-            letsConvert()
-            }
-        })
-    }
-})
+// function changeSelected(e){
+//    const arr = e.target.parentElement.querySelectorAll('.target__button')
+//    arr.forEach(el => {
+//        if (el.classList.contains('selected')){
+//            el.classList.remove('selected')
+//        }
+//        if(el === e.target && el.classList.contains('target__button')){
+//            el.classList.add('selected')
+//        }
+//    })
+// }
+
+// leftColumn.addEventListener('click', changeSelected)
 
 getCurrencyOptions()
 letsConvert()
