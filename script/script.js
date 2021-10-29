@@ -19,6 +19,8 @@ const state = {
     order : 'ASK'
 }
 
+iHaveInput.value = state.iHaveValue
+
 function equalsValues(){
     state.iWontValue = 1
     state.iHaveValue = 1
@@ -35,8 +37,7 @@ btnArr.forEach(el => {
         e.target.classList.add('selected')
         if(e.target.parentElement.classList.contains('left-column')){
             state.iHaveCurrency = e.target.innerText
-            state.iHaveCurrency === state.iWontCurrency ? equalsValues(): letsConvert()
-             
+            state.iHaveCurrency === state.iWontCurrency ? equalsValues() : letsConvert()
         }else{
             state.iWontCurrency = e.target.innerText
             state.iWontCurrency === state.iHaveCurrency ? equalsValues() : letsConvert()
@@ -44,11 +45,34 @@ btnArr.forEach(el => {
     })
 })
 
-iHaveInput.value = state.iHaveValue
 const getCurrencyValue = async function(){
     const resp = await fetch('https://api.exchangerate.host/latest')
     const data = await resp.json()
     return data
+}
+
+function getCurrencyFromOption(e){
+    if(e.target.parentElement.classList.contains('left__list')){
+        const arr = leftColumn.querySelectorAll('.target__button')
+        arr.forEach(el => el.classList.remove('selected'))
+        let item = arr[arr.length - 1]
+        item.classList.add('selected')
+        item.innerText = e.target.innerText
+        state.iHaveCurrency = e.target.innerText
+        state.iHaveCurrency === state.iWontCurrency ? equalsValues() : letsConvert()
+        selectOne.classList.toggle('visible')
+        state.order = 'ASK'
+    }else if(e.target.parentElement.classList.contains('right__list')){
+        const arr = rightColumn.querySelectorAll('.target__button')
+        arr.forEach(el => el.classList.remove('selected'))
+        let item = arr[arr.length - 1]
+        item.classList.add('selected')
+        item.innerText = e.target.innerText
+        state.iWontCurrency = e.target.innerText
+        state.iWontCurrency === state.iHaveCurrency ? equalsValues() : letsConvert()
+        selectTwo.classList.toggle('visible')
+        state.order = 'ASK'
+    }
 }
 
 function getCurrencyOptions(){
@@ -70,6 +94,8 @@ function getCurrencyOptions(){
             optionTwo.innerText = el
             selectOne.append(optionOne)
             selectTwo.append(optionTwo)
+            selectOne.addEventListener('click', getCurrencyFromOption)
+            selectTwo.addEventListener('click', getCurrencyFromOption)
         })
     })
 }
@@ -103,6 +129,7 @@ function changSubTitle(){
 rightArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
         selectTwo.classList.toggle('visible')
+        console.log(e.target)
         state.order = 'DESK'
     }else{
         selectTwo.classList.toggle('visible')
