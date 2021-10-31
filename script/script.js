@@ -17,7 +17,11 @@ const state = {
     iWontCurrency : 'USD',
     iHaveValue : 1,
     iWontValue : 0,
-    order : 'ASK'
+    order : 'ASK',
+    LeftOption : 'ASK',
+    rightOption : 'ASK',
+    toggleButton : 'ASK'
+
 }
 
 iHaveInput.value = state.iHaveValue
@@ -64,6 +68,7 @@ function getCurrencyFromOption(e){
         state.iHaveCurrency === state.iWontCurrency ? equalsValues() : letsConvert()
         selectOne.classList.toggle('visible')
         state.order = 'ASK'
+        state.LeftOption = 'DESC'
     }else if(e.target.parentElement.classList.contains('right__list')){
         const arr = rightColumn.querySelectorAll('.target__button')
         arr.forEach(el => el.classList.remove('selected'))
@@ -74,6 +79,7 @@ function getCurrencyFromOption(e){
         state.iWontCurrency === state.iHaveCurrency ? equalsValues() : letsConvert()
         selectTwo.classList.toggle('visible')
         state.order = 'ASK'
+        state.rightOption = 'DESC'
     }
 }
 
@@ -130,10 +136,11 @@ function changSubTitle(){
 
 rightArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
+        e.target.style.background = 'url("./img/arrow-back.svg") no-repeat center'
         selectTwo.classList.toggle('visible')
-        console.log(e.target)
         state.order = 'DESC'
     }else{
+        e.target.style.background = 'url("./img/arrow.svg") no-repeat center'
         selectTwo.classList.toggle('visible')
         state.order = 'ASK'
     } 
@@ -141,9 +148,11 @@ rightArow.addEventListener('click', e => {
 })
 leftArow.addEventListener('click', e => {
     if(state.order === 'ASK'){
+        e.target.style.background = 'url("./img/arrow-back.svg") no-repeat center'
         selectOne.classList.toggle('visible')
         state.order = 'DESC'
     }else{
+        e.target.style.background = 'url("./img/arrow.svg") no-repeat center'
         selectOne.classList.toggle('visible')
         state.order = 'ASK'
     }
@@ -155,11 +164,11 @@ iHaveInput.addEventListener('input', e => {
         amountSubtitle.forEach(el => el.style.display = 'none')
         iWontInput.value = 0
     }else if(e.target.value === ''){
-        state.iHaveValue = 1
-        letsConvert()
+        amountSubtitle.forEach(el => el.style.display = 'none')
+        iWontInput.value = ''
     }else{
         state.iHaveValue = e.target.value
-        setTimeout(letsConvert,800)
+        letsConvert()
     }
 })
 iWontInput.addEventListener('input', e => {
@@ -168,28 +177,68 @@ iWontInput.addEventListener('input', e => {
         amountSubtitle.forEach(el => el.style.display = 'none')
         iHaveInput.value = 0
     }else if(e.target.value === ''){
-        state.iWontValue = 1
-        getData(state.iWontCurrency, state.iWontValue)
-        .then(data => {
-        let curr = state.iHaveCurrency
-        state.iHaveValue = data.rates[curr]
-        changeValues()
-        changSubTitle()
-    })
+        amountSubtitle.forEach(el => el.style.display = 'none')
+        iHaveInput.value = ''
     }else{
         state.iWontValue = e.target.value
         getData(state.iWontCurrency, state.iWontValue)
         .then(data => {
-        let curr = state.iHaveCurrency
-        state.iHaveValue = data.rates[curr]
-        changeValues()
-        changSubTitle()
-    })
+            let curr = state.iHaveCurrency
+            state.iHaveValue = data.rates[curr]
+            changeValues()
+            changSubTitle()
+        })
     }
+})
+
+function changeCurrency(){
+    const leftArr = leftColumn.querySelectorAll('.target__button')
+    const rightArr = rightColumn.querySelectorAll('.target__button')
+    const leftSelected = leftColumn.querySelector('.selected')
+    const rightSelected = rightColumn.querySelector('.selected')
+    let leftCounter = 0
+    let rightCounter = 0
+    state.iHaveCurrency = rightSelected.innerText
+    state.iWontCurrency = leftSelected.innerText
+    leftSelected.classList.remove('selected')
+    rightSelected.classList.remove('selected')
+    
+    for(let el of leftArr){
+        if(el.innerText === state.iHaveCurrency){
+            el.classList.add('selected')
+            break
+        }else if(leftCounter === leftArr.length - 1){
+            el.innerText = state.iHaveCurrency
+            el.classList.add('selected')
+            break
+        }
+        leftCounter++
+    }
+    for(let el of rightArr){
+        if(el.innerText === state.iWontCurrency){
+            el.classList.add('selected')
+            break
+        }else if(rightCounter === rightArr.length - 1){
+            el.innerText = state.iWontCurrency
+            el.classList.add('selected')
+            break
+        }
+        rightCounter++
+    }
+}
+
+toggleBtn.addEventListener('click', e => {
+    if (state.toggleButton === 'ASK'){
+        e.target.parentElement.style.transform = 'rotate(180deg)'
+        state.toggleButton = 'DESC'
+    }else{
+        e.target.parentElement.style.transform = 'rotate(0deg)'
+        state.toggleButton = 'ASK'
+    }
+    changeCurrency()
+    letsConvert()
 })
 
 
 getCurrencyOptions()
 letsConvert()
-
-
