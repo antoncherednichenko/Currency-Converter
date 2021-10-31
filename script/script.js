@@ -12,6 +12,8 @@ const rightArow = document.querySelector('.right__arow')
 const page = document.querySelector('.page')
 const btnArr = document.querySelectorAll('.target__button')
 const amountSubtitle = document.querySelectorAll('.amount__subtitle')
+const errorBox = document.querySelector('.error')
+const errorBtn = document.querySelector('.error__button')
 const state = {
     iHaveCurrency : 'RUB',
     iWontCurrency : 'USD',
@@ -58,7 +60,10 @@ const getCurrencyValue = async function(){
 }
 
 function getCurrencyFromOption(e){
+    e.target.parentElement.parentElement
     if(e.target.parentElement.classList.contains('left__list')){
+        leftArow.style.background = 'url("./img/arrow.svg") no-repeat center'
+        state.order = 'ASK'
         const arr = leftColumn.querySelectorAll('.target__button')
         arr.forEach(el => el.classList.remove('selected'))
         let item = arr[arr.length - 1]
@@ -70,6 +75,8 @@ function getCurrencyFromOption(e){
         state.order = 'ASK'
         state.LeftOption = 'DESC'
     }else if(e.target.parentElement.classList.contains('right__list')){
+        rightArow.style.background = 'url("./img/arrow.svg") no-repeat center'
+        state.order = 'ASK'
         const arr = rightColumn.querySelectorAll('.target__button')
         arr.forEach(el => el.classList.remove('selected'))
         let item = arr[arr.length - 1]
@@ -83,7 +90,7 @@ function getCurrencyFromOption(e){
     }
 }
 
-function getCurrencyOptions(){
+function getCurrencyOptions(e){
     getCurrencyValue()
     .then(data => {
         const arr = []
@@ -122,7 +129,11 @@ function letsConvert(){
         changeValues()
         changSubTitle()
     })
+    .catch(er => errorBox.style.display = 'block')
+    
 }
+
+errorBtn.addEventListener('click', e => errorBox.style.display = 'none')
 
 function changeValues(){
     iHaveInput.value = state.iHaveValue
@@ -180,6 +191,7 @@ iWontInput.addEventListener('input', e => {
         amountSubtitle.forEach(el => el.style.display = 'none')
         iHaveInput.value = ''
     }else{
+        e.target.value = e.target.value.replace(/[.]/g, ",")
         state.iWontValue = e.target.value
         getData(state.iWontCurrency, state.iWontValue)
         .then(data => {
@@ -229,10 +241,10 @@ function changeCurrency(){
 
 toggleBtn.addEventListener('click', e => {
     if (state.toggleButton === 'ASK'){
-        e.target.parentElement.style.transform = 'rotate(180deg)'
+        toggleBtn.style.transform = 'rotate(180deg)'
         state.toggleButton = 'DESC'
     }else{
-        e.target.parentElement.style.transform = 'rotate(0deg)'
+        toggleBtn.style.transform = 'rotate(0deg)'
         state.toggleButton = 'ASK'
     }
     changeCurrency()
