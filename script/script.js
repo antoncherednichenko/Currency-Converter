@@ -85,7 +85,7 @@ function getCurrencyFromOption(e){
 }
 
 const getCurrencyValue = async function(){
-    const resp = await fetch('https://api.exchangerate.host/latest')
+    const resp = await fetch('https://api.exchangerate.host/symbols')
     const data = await resp.json()
     return data
 }
@@ -94,7 +94,7 @@ function getCurrencyOptions(e){
     getCurrencyValue()
     .then(data => {
         const arr = []
-        for(let key in data.rates){
+        for(let key in data.symbols){
             arr.push(key)
         }
         return  arr
