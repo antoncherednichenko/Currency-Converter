@@ -14,19 +14,19 @@ const btnArr = document.querySelectorAll('.target__button')
 const amountSubtitle = document.querySelectorAll('.amount__subtitle')
 const errorBox = document.querySelector('.error')
 const errorBtn = document.querySelector('.error__button')
+const loadWindow = document.querySelector('.loading')
 const state = {
     iHaveCurrency : 'RUB',
     iWontCurrency : 'USD',
     iHaveValue : 1,
     iWontValue : 0,
     order : 'ASK',
-    LeftOption : 'ASK',
-    rightOption : 'ASK',
     toggleButton : 'ASK'
 
 }
 
 iHaveInput.value = state.iHaveValue
+loadWindow.style.display = 'none'
 
 function equalsValues(){
     state.iWontValue = 1
@@ -52,12 +52,6 @@ btnArr.forEach(el => {
         }
     })
 })
-
-const getCurrencyValue = async function(){
-    const resp = await fetch('https://api.exchangerate.host/latest')
-    const data = await resp.json()
-    return data
-}
 
 function getCurrencyFromOption(e){
     e.target.parentElement.parentElement
@@ -90,6 +84,12 @@ function getCurrencyFromOption(e){
     }
 }
 
+const getCurrencyValue = async function(){
+    const resp = await fetch('https://api.exchangerate.host/latest')
+    const data = await resp.json()
+    return data
+}
+
 function getCurrencyOptions(e){
     getCurrencyValue()
     .then(data => {
@@ -115,22 +115,31 @@ function getCurrencyOptions(e){
     })
 }
 
+function showLoading(){
+    loadWindow.style.display = 'flex'
+}
+
 const getData = async function(currency, amount){
+    const time = setTimeout(showLoading, 500)
     const resp = await fetch(`https://api.exchangerate.host/latest?base=${currency}&amount=${amount}`)
+    .catch(er => {
+        clearTimeout(time)
+        errorBox.style.display = 'block'
+        loadWindow.style.display = 'none'
+    })
     const data = await resp.json()
+    clearTimeout(time)
+    loadWindow.style.display = 'none'
     return data
 }
 
 function letsConvert(){
     getData(state.iHaveCurrency, state.iHaveValue)
     .then(data => {
-        let curr = state.iWontCurrency
-        state.iWontValue = data.rates[curr]
+        state.iWontValue = data.rates[state.iWontCurrency]
         changeValues()
         changSubTitle()
     })
-    .catch(er => errorBox.style.display = 'block')
-    
 }
 
 errorBtn.addEventListener('click', e => errorBox.style.display = 'none')
@@ -178,7 +187,7 @@ iHaveInput.addEventListener('input', e => {
         amountSubtitle.forEach(el => el.style.display = 'none')
         iWontInput.value = ''
     }else{
-        state.iHaveValue = e.target.value
+        state.iHaveValue = +e.target.value
         letsConvert()
     }
 })
@@ -191,12 +200,10 @@ iWontInput.addEventListener('input', e => {
         amountSubtitle.forEach(el => el.style.display = 'none')
         iHaveInput.value = ''
     }else{
-        e.target.value = e.target.value.replace(/[.]/g, ",")
-        state.iWontValue = e.target.value
+        state.iWontValue = +e.target.value
         getData(state.iWontCurrency, state.iWontValue)
         .then(data => {
-            let curr = state.iHaveCurrency
-            state.iHaveValue = data.rates[curr]
+            state.iHaveValue = data.rates[state.iHaveCurrency]
             changeValues()
             changSubTitle()
         })
